@@ -1,56 +1,46 @@
 //tinkercad
 
-https://www.tinkercad.com/things/l82IBNseY9m-tinkercad-smart-home
+https://www.tinkercad.com/things/8PPYJmqzRyW-smart-home
 
 //code
-float x,y,z,temp;
+#include<Servo.h>
+
+#define myLed 8
+
+Servo s;
+
 void setup()
 {
-  pinMode(8, INPUT);
-  pinMode(5, OUTPUT);
-  pinMode(6, OUTPUT);
-  pinMode(A5, INPUT); 
-  pinMode(A4, INPUT);
-Serial.begin(9600);
+  Serial.begin(9600);
+  pinMode(4, INPUT);
+  pinMode(myLed, OUTPUT);
+  s.attach(7);
+  pinMode(2, OUTPUT);
 }
+
 void loop()
 {
-  x= digitalRead(8);
-  y= analogRead(A5);
-  z= analogRead(A4);
-  Serial.println(x);
-  Serial.println(y);
-  Serial.println(z);
-  temp = (double)z / 1024;       
-  temp = temp * 5;                 
-  temp = temp - 0.5;               
-  temp = temp * 100;               
-  if ( (x>0) )
-  {
-    if ((y<550)&&(temp>30))
-    {
-      digitalWrite(5, HIGH);
-      digitalWrite(6, HIGH);
-    }
-    else if((y<550)&&(temp<30))
-    {
-      digitalWrite(5, HIGH);
-      digitalWrite(6, LOW);
-    }
-    else if((y>550)&&(temp>30))
-    {
-      digitalWrite(5, LOW);
-      digitalWrite(6, HIGH);
-    }
-    else if((y>550)&&(temp<30))
-    {
-      digitalWrite(5, LOW);
-      digitalWrite(6, LOW);
-    }
-  }
-  else
-  {
-    digitalWrite(5, LOW);
-    digitalWrite(6, LOW);
+  int p = digitalRead(4);
+  Serial.println(p);
+  
+  if(p){
+    Serial.println("Welcome Home!! The doors will open soon");
+    
+    digitalWrite(myLed, HIGH);
+    
+    tone(2, 30000);
+    delay(500);
+    noTone(2);
+    
+    for(int i = 0; i <=180; i++){
+    	s.write(i);
+    	delay(10);
+  	}
+  	delay(1000);
+  	for(int j = 180; j >=0; j--){
+    	s.write(j);
+    	delay(10);
+  	}
+    
   }
 }
