@@ -1,4 +1,4 @@
-#traffic light for raspberry pi simlulating in pycham with GUI
+#traffic light for raspberry pi simulating in pycharm with GUI
 import turtle
 import time
 wn= turtle.getscreen()
